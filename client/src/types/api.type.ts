@@ -210,6 +210,56 @@ export type ProjectByIdPayloadType = {
   projectId: string;
 };
 
+//********** */ EVENT TYPES ************************
+//************************************************* */
+
+export type CreateEventPayloadType = {
+  workspaceId: string;
+  data: {
+    title: string;
+    agenda?: string | undefined;
+    date: string;
+    time: string;
+    duration: string;
+    attendees: string[];
+    meetingLink: string;
+  };
+};
+
+export type AllEventPayloadType = {
+  workspaceId: string;
+  keyword?: string | null;
+  attendees?: string | null;
+  date?: string | null;
+  pageNumber?: number | null;
+  pageSize?: number | null;
+};
+
+export type EventType = {
+  _id: string;
+  title: string;
+  agenda?: string;
+  meetingLink: string;
+  attendees: {
+    _id: string;
+    name: string;
+    profilePicture: string | null;
+  }[];
+  createdBy?: string;
+  date: string;
+  time: string;
+  duration: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type AllEventResponseType = {
+  message: string;
+  events: EventType[];
+  pagination: PaginationType;
+};
+
+
 //********** */ TASK TYPES ************************
 //************************************************* */
 

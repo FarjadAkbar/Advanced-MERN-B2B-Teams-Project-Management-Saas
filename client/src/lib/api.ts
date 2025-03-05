@@ -1,5 +1,7 @@
 import API from "./axios-client";
 import {
+  AllEventPayloadType,
+  AllEventResponseType,
   AllMembersInWorkspaceResponseType,
   AllProjectPayloadType,
   AllProjectResponseType,
@@ -7,6 +9,7 @@ import {
   AllTaskResponseType,
   AnalyticsResponseType,
   ChangeWorkspaceMemberRoleType,
+  CreateEventPayloadType,
   CreateProjectPayloadType,
   CreateTaskPayloadType,
   CreateWorkspaceResponseType,
@@ -189,6 +192,59 @@ export const deleteProjectMutationFn = async ({
   return response.data;
 };
 
+
+//*******EVENTS ********************************
+//************************* */
+
+export const createEventMutationFn = async ({
+  workspaceId,
+  data,
+}: CreateEventPayloadType) => {
+  const response = await API.post(
+    `/event/workspace/${workspaceId}/create`,
+    data
+  );
+  return response.data;
+};
+
+
+export const getAllEventsQueryFn = async ({
+  workspaceId,
+  keyword,
+  attendees,
+  date,
+  pageNumber,
+  pageSize,
+}: AllEventPayloadType): Promise<AllEventResponseType> => {
+  const baseUrl = `/event/workspace/${workspaceId}/all`;
+
+  const queryParams = new URLSearchParams();
+  if (keyword) queryParams.append("keyword", keyword);
+  if (attendees) queryParams.append("attendees", attendees);
+  if (date) queryParams.append("date", date);
+  if (pageNumber) queryParams.append("pageNumber", pageNumber?.toString());
+  if (pageSize) queryParams.append("pageSize", pageSize?.toString());
+
+  const url = queryParams.toString() ? `${baseUrl}?${queryParams}` : baseUrl;
+  const response = await API.get(url);
+  return response.data;
+};
+
+export const deleteEventMutationFn = async ({
+  workspaceId,
+  eventId,
+}: {
+  workspaceId: string;
+  eventId: string;
+}): Promise<{
+  message: string;
+}> => {
+  const response = await API.delete(
+    `event/${eventId}/workspace/${workspaceId}/delete`
+  );
+  return response.data;
+};
+
 //*******TASKS ********************************
 //************************* */
 
@@ -203,6 +259,7 @@ export const createTaskMutationFn = async ({
   );
   return response.data;
 };
+
 
 export const getAllTasksQueryFn = async ({
   workspaceId,

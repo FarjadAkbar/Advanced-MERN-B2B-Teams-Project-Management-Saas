@@ -24,6 +24,10 @@ export const Permissions = {
   EDIT_TASK: "EDIT_TASK",
   DELETE_TASK: "DELETE_TASK",
 
+  CREATE_EVENT: "CREATE_EVENT",
+  EDIT_EVENT: "EDIT_EVENT",
+  DELETE_EVENT: "DELETE_EVENT",
+
   VIEW_ONLY: "VIEW_ONLY",
 } as const;
 
