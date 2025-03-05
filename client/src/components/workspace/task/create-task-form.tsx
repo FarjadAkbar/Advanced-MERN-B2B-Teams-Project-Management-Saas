@@ -121,9 +121,9 @@ export default function CreateTaskForm(props: {
     assignedTo: z.string().trim().min(1, {
       message: "AssignedTo is required",
     }),
-    dueDate: z.date({
-      required_error: "A date of birth is required.",
-    }),
+    dueDate: z.string().trim().min(1, ({
+      message: "A date is required.",
+    })),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -148,7 +148,7 @@ export default function CreateTaskForm(props: {
       projectId: values.projectId,
       data: {
         ...values,
-        dueDate: values.dueDate.toISOString(),
+        // dueDate: values.dueDate,
       },
     };
 
@@ -332,7 +332,21 @@ export default function CreateTaskForm(props: {
 
             {/* {Due Date} */}
             <div className="!mt-2">
-              <FormField
+            <FormField
+              control={form.control}
+              name="dueDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="dark:text-[#f1f7feb5] text-sm">Due Date</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Select Date" type="date" className="h-[48px]" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+              {/* <FormField
                 control={form.control}
                 name="dueDate"
                 render={({ field }) => (
@@ -377,7 +391,7 @@ export default function CreateTaskForm(props: {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
             </div>
 
             {/* {Status} */}
